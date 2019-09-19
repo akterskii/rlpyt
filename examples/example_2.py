@@ -18,7 +18,7 @@ from rlpyt.runners.minibatch_rl import MinibatchRlEval
 from rlpyt.utils.logging.context import logger_context
 
 
-def build_and_train(env_id="Hopper-v3", run_ID=0, cuda_idx=None):
+def build_and_train(env_id="BipedalWalker-v2", run_ID=0, cuda_idx=None):
     sampler = SerialSampler(
         EnvCls=gym_make,
         env_kwargs=dict(id=env_id),
@@ -36,9 +36,9 @@ def build_and_train(env_id="Hopper-v3", run_ID=0, cuda_idx=None):
         algo=algo,
         agent=agent,
         sampler=sampler,
-        n_steps=1e6,
+        n_steps=2e4,
         log_interval_steps=1e4,
-        affinity=dict(cuda_idx=cuda_idx),
+        affinity=dict(cuda_idx=0),
     )
     config = dict(env_id=env_id)
     name = "sac_" + env_id
@@ -50,10 +50,11 @@ def build_and_train(env_id="Hopper-v3", run_ID=0, cuda_idx=None):
 if __name__ == "__main__":
     import argparse
     parser = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter)
-    parser.add_argument('--env_id', help='environment ID', default='Hopper-v3')
+    parser.add_argument('--env_id', help='environment ID', default='BipedalWalker-v2')
     parser.add_argument('--run_ID', help='run identifier (logging)', type=int, default=0)
-    parser.add_argument('--cuda_idx', help='gpu to use ', type=int, default=None)
+    parser.add_argument('--cuda_idx', help='gpu to use ', type=int, default=0)
     args = parser.parse_args()
+    print(args.cuda_idx)
     build_and_train(
         env_id=args.env_id,
         run_ID=args.run_ID,
