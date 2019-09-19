@@ -74,7 +74,7 @@ class SacAgent(BaseAgent):
     def to_device(self, cuda_idx=None):
         super().to_device(cuda_idx)
 
-        print('Current device:', self.device)
+        # print('Current device:', self.device)
 
         self.q1_model.to(self.device)
         self.q2_model.to(self.device)
